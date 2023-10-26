@@ -36,7 +36,7 @@ class _CalendarState extends State<Calendar> {
   void initState() {
     super.initState();
     loadTasks();
-     selectedDate = DateTime.now(); // Initialize selectedDate with the present date.
+     selectedDate = DateTime.now(); 
     selectedMonth = DateFormat('MMMM').format(selectedDate);
   }
 
@@ -137,7 +137,7 @@ class _CalendarState extends State<Calendar> {
         setState(() {
           selectedMonth = value;
 
-          // Calculate the corresponding month in the selected year.
+         
           final selectedMonthIndex = months.indexOf(selectedMonth) + 1;
           selectedDate = DateTime(DateTime.now().year, selectedMonthIndex);
         });

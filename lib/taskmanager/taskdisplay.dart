@@ -53,11 +53,7 @@ Future<void> loadTask() async {
 void toggleSubtaskCompletion(int index) {
   setState(() {
     completedSubtasks[index] = !completedSubtasks[index];
-
-    // Update the task's subtask completion status
     task!.subtasks[index].isCompleted = completedSubtasks[index];
-
-    // Update the task in the Hive database
     updateTask(task!);
 
    
@@ -286,3 +282,6 @@ void toggleSubtaskCompletion(int index) {
     );
   }
 }
+
+
+

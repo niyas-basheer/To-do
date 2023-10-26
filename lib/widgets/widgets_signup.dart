@@ -5,7 +5,7 @@ import 'package:to_do_app/widgets/color.dart';
 import 'package:to_do_app/database/signin.dart';
 
 import 'package:to_do_app/sign/signin.dart';
-import 'package:to_do_app/widgets/widgets_common.dart';
+import 'package:to_do_app/widgets/widgets_signinsignup.dart';
 
 
 class SignUpWidgets extends StatefulWidget {

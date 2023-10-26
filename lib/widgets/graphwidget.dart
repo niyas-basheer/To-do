@@ -50,7 +50,7 @@ class _GraphScreenState extends State<GraphScreen> {
     final DateTime now = DateTime.now();
 
     if (graph == 0) {
-      // "Today" is selected
+     
       final DateTime today = DateTime(now.year, now.month, now.day);
       for (final task in tasks) {
         if (task.startDate != null && task.endDate != null) {
@@ -68,7 +68,7 @@ class _GraphScreenState extends State<GraphScreen> {
         }
       }
     } else if (graph == 1) {
-      // "This Week" is selected
+      
       final DateTime startOfWeek =
           now.subtract(Duration(days: now.weekday - 1));
       for (final task in tasks) {
@@ -87,7 +87,7 @@ class _GraphScreenState extends State<GraphScreen> {
         }
       }
     } else if (graph == 2) {
-      // "This Month" is selected
+      
       final DateTime startOfMonth = DateTime(now.year, now.month, 1);
       for (final task in tasks) {
         if (task.startDate != null && task.endDate != null) {
@@ -144,7 +144,7 @@ class _GraphScreenState extends State<GraphScreen> {
                   child: Column(
                     children: [
                       TaskPieChart(chartData: chartData),
-                      // Legend for the chart
+                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

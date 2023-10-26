@@ -324,7 +324,7 @@ class VerticalListViewWidget extends StatelessWidget {
 class TaskSearchBar extends StatelessWidget {
   final Box<Task> taskBox;
 
-  TaskSearchBar({required this.taskBox});
+  const TaskSearchBar({required this.taskBox});
 
   @override
   Widget build(BuildContext context) {
@@ -462,7 +462,7 @@ class VerticalListViewcompleted extends StatelessWidget {
 class CompletedTaskSearchBar extends StatelessWidget {
   final Box<Task> taskBox;
 
-  CompletedTaskSearchBar({required this.taskBox});
+  const CompletedTaskSearchBar({required this.taskBox});
 
   @override
   Widget build(BuildContext context) {

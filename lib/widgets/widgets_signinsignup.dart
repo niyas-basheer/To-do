@@ -10,7 +10,7 @@ Widget buildTextField({
   String labelText = "",
   bool obscureText = false,
   String? Function(String?)? validator,
-  Widget? suffixIcon,  // Accept a suffixIcon widget
+  Widget? suffixIcon,  
 }) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -35,7 +35,7 @@ Widget buildTextField({
           obscureText: obscureText,
           validator: validator,
           decoration: InputDecoration(
-            suffixIcon: suffixIcon,  // Use the provided suffixIcon
+            suffixIcon: suffixIcon,  
             hintText: hintText,
             border: const OutlineInputBorder(),
           ),

@@ -4,7 +4,7 @@ import 'package:to_do_app/widgets/color.dart';
 import 'package:to_do_app/profile/profle.dart';
 import 'package:to_do_app/taskmanager/addtask.dart';
 import 'package:to_do_app/calander.dart/celender.dart';
-import 'package:to_do_app/graph/graphscreen.dart';
+import 'package:to_do_app/widgets/graphwidget.dart';
 import 'package:to_do_app/home/home.dart';
 
 

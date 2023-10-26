@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/widgets/color.dart';
-import 'package:to_do_app/profile/app_bar.dart';
+import 'package:to_do_app/widgets/app_bar.dart';
 
 class Privecy extends StatelessWidget {
   const Privecy({super.key});

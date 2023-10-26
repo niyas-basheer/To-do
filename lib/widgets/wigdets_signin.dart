@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api, recursive_getters
 
 import 'package:flutter/material.dart';
 import 'package:to_do_app/widgets/color.dart';
@@ -12,12 +12,11 @@ import 'package:to_do_app/sign/signup.dart';
 class SignInWidgets extends StatefulWidget {
   const SignInWidgets({super.key});
 
-  // Create a getter for the formKey
-  // ignore: recursive_getters
+ 
   GlobalKey<FormState> get formKey => formKey;
 
   @override
-  // ignore: library_private_types_in_public_api
+  
   _SignInWidgetsState createState() => _SignInWidgetsState();
 }
 
@@ -51,16 +50,16 @@ class _SignInWidgetsState extends State<SignInWidgets> {
     );
   }
 
- Widget _buildTaskList(BuildContext context) {
+ Widget buildTaskList(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Column(
               children: [
-                buildHeader(),  // Corrected
-                buildEmailTextField(),  // Corrected
-                buildPasswordTextField(context),  // Corrected
-                buildLoginButton(context),  // Corrected
-                buildSignUpButton(context),  // Corrected
+                buildHeader(),  
+                buildEmailTextField(),  
+                buildPasswordTextField(context), 
+                buildLoginButton(context),  
+                buildSignUpButton(context),  
               ],
             ),
     );

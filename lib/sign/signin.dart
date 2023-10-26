@@ -9,7 +9,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final SignInWidgets signInWidgets = SignInWidgets();
+  final SignInWidgets signInWidgets = const SignInWidgets();
 
   @override
   Widget build(BuildContext context) {
