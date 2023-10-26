@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
             
       ),
-      initialRoute: '/screenOne',
+      initialRoute: '/screenfour',
       routes: {
         '/': (context) => const HomePage(),
         '/screenOne': (context) => const SignIn(),
