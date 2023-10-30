@@ -26,6 +26,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
         leading: BackButton(
           color: blackcolor,
           onPressed: () {

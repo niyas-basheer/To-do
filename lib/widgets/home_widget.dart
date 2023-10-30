@@ -114,11 +114,17 @@ class _HomePageContentState extends State<HomePageContent> {
 
 Widget _buildHorizontalListView() {
   return ValueListenableBuilder(
-    valueListenable: Hive.box<Task>('tasks').listenable(), 
+    valueListenable: Hive.box<Task>('tasks').listenable(),
     builder: (context, Box<Task> box, child) {
       final completedTasks = box.values.where((task) {
         return task.subtasks.every((subtask) => subtask.isCompleted);
       }).toList();
+
+      if (completedTasks.isEmpty) {
+        return const Center(
+          child: Text('No items found'),
+        );
+      }
 
       return SizedBox(
         height: 200,
@@ -132,7 +138,8 @@ Widget _buildHorizontalListView() {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TaskDetailPage(taskId: tasks.indexOf(task)),
+                    builder: (context) =>
+                        TaskDetailPage(taskId: tasks.indexOf(task)),
                   ),
                 );
               },
@@ -216,109 +223,116 @@ Widget _buildHorizontalListView() {
 class VerticalListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  
-  return ValueListenableBuilder(
-    valueListenable: Hive.box<Task>('tasks').listenable(),
-    builder: (context, Box<Task> box, child) {
-      final incompleteTasks = box.values.where((task) {
-        return task.subtasks.any((subtask) => !subtask.isCompleted);
-      }).toList();
+    return ValueListenableBuilder(
+      valueListenable: Hive.box<Task>('tasks').listenable(),
+      builder: (context, Box<Task> box, child) {
+        final incompleteTasks = box.values.where((task) {
+          return task.subtasks.any((subtask) => !subtask.isCompleted);
+        }).toList();
 
-      return Expanded(
-        child: SizedBox(
-          height: 300,
-          child: ListView.separated(
-            itemCount: incompleteTasks.length,
-            separatorBuilder: (context, index) => const Divider(
-              color: white,
-              thickness: 10,
-            ),
-            itemBuilder:(context, index) {
-           final task = incompleteTasks[index];
-            final int pendingTaskCount =
-                task.subtasks.where((subtask) => !subtask.isCompleted).length;
-            final String startingDate = task.startDate != null
-                ? DateFormat('dd-MM-yyyy')
-                    .format(DateTime.parse(task.startDate!))
-                : "Not specified";
-              
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TaskDetailPage(taskId: box.values.toList().indexOf(task)),
+        if (incompleteTasks.isEmpty) {
+          return const Center(
+            child: Text('No items found'),
+          );
+        }
+
+        return Expanded(
+          child: SizedBox(
+            height: 300,
+            child: ListView.separated(
+              physics: const ClampingScrollPhysics(),
+              itemCount: incompleteTasks.length,
+              separatorBuilder: (context, index) => const Divider(
+                color: white,
+                thickness: 10,
+              ),
+              itemBuilder: (context, index) {
+                final task = incompleteTasks[index];
+                final int pendingTaskCount =
+                    task.subtasks.where((subtask) => !subtask.isCompleted).length;
+                final String startingDate = task.startDate != null
+                    ? DateFormat('dd-MM-yyyy')
+                        .format(DateTime.parse(task.startDate!))
+                    : "Not specified";
+
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TaskDetailPage(taskId: box.values.toList().indexOf(task)),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: 60,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: notselectedcolr,
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  );
-                },
-                child: Container(
-                  width: 60,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: notselectedcolr,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child:  Column(
-                  children: [
-                    Row(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                task.heading,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: blackcolor,
-                                  fontFamily: 'DelaGothicOne',
-                                ),
-                              ),
-                              Text(
-                                'Starting Date: $startingDate',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: blackcolor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Column(
+                        Row(
                           children: [
-                            Text(
-                              '$pendingTaskCount',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: blackcolor,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    task.heading,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: blackcolor,
+                                      fontFamily: 'DelaGothicOne',
+                                    ),
+                                  ),
+                                  Text(
+                                    'Starting Date: $startingDate',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: blackcolor,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const Text(
-                              'Pending',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: blackcolor,
-                              ),
+                            Column(
+                              children: [
+                                Text(
+                                  '$pendingTaskCount',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: blackcolor,
+                                  ),
+                                ),
+                                const Text(
+                                  'Pending',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: blackcolor,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-                ),
-              );
-            },
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }
 
-  }
 
 
 class TaskSearchBar extends StatelessWidget {
@@ -392,6 +406,13 @@ class VerticalListViewcompleted extends StatelessWidget {
       final completedTasks = box.values.where((task) {
         return task.subtasks.every((subtask) => subtask.isCompleted);
       }).toList();
+
+if (completedTasks.isEmpty) {
+          return const Center(
+            child: Text('No items found'),
+          );
+        }
+
 
       return Expanded(
         child: SizedBox(

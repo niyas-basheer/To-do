@@ -62,18 +62,24 @@ class CalendarPageWidgets {
 
 static Widget buildVerticalListView(List<Task> tasks, DateTime selectedDate, BuildContext context) {
   final filteredTasks = tasks.where((task) {
-  // Add your date filtering logic here
-  if (task.startDate != null && task.endDate != null) {
-    final taskStartDate = DateTime.tryParse(task.startDate!);
-    final taskEndDate = DateTime.tryParse(task.endDate!);
+    // Add your date filtering logic here
+    if (task.startDate != null && task.endDate != null) {
+      final taskStartDate = DateTime.tryParse(task.startDate!);
+      final taskEndDate = DateTime.tryParse(task.endDate!);
 
-    // Check if selectedDate is on or after taskStartDate and on or before taskEndDate
-    return selectedDate.isAtSameMomentAs(taskStartDate!) || 
-           selectedDate.isAtSameMomentAs(taskEndDate!) ||
-           (selectedDate.isAfter(taskStartDate) && selectedDate.isBefore(taskEndDate));
+      // Check if selectedDate is on or after taskStartDate and on or before taskEndDate
+      return selectedDate.isAtSameMomentAs(taskStartDate!) || 
+             selectedDate.isAtSameMomentAs(taskEndDate!) ||
+             (selectedDate.isAfter(taskStartDate) && selectedDate.isBefore(taskEndDate));
+    }
+    return false;
+  }).toList();
+
+  if (filteredTasks.isEmpty) {
+    return const Center(
+      child: Text('No items found'),
+    );
   }
-  return false;
-}).toList();
 
   return Expanded(
     child: Container(
@@ -110,56 +116,56 @@ static Widget buildVerticalListView(List<Task> tasks, DateTime selectedDate, Bui
                 color: notselectedcolr,
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child:  Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                task.heading,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: blackcolor,
-                                  fontFamily: 'DelaGothicOne',
-                                ),
-                              ),
-                              Text(
-                                'Starting Date: $startingDate',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: blackcolor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Column(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '$pendingTaskCount',
+                              task.heading,
                               style: const TextStyle(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: blackcolor,
+                                fontFamily: 'DelaGothicOne',
                               ),
                             ),
-                            const Text(
-                              'Pending',
-                              style: TextStyle(
+                            Text(
+                              'Starting Date: $startingDate',
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: blackcolor,
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            '$pendingTaskCount',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: blackcolor,
+                            ),
+                          ),
+                          const Text(
+                            'Pending',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: blackcolor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -167,6 +173,7 @@ static Widget buildVerticalListView(List<Task> tasks, DateTime selectedDate, Bui
     ),
   );
 }
+
 
 
 }

@@ -148,7 +148,7 @@ void toggleSubtaskCompletion(int index) {
           children: [
             const SizedBox(height: 10),
             Container(
-              width: 400,
+              width: 1.0 * MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(color: Color.fromARGB(255, 185, 188, 199) ),
               child: Text(
                 task?.heading ?? 'No task found',

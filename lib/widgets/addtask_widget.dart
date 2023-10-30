@@ -143,7 +143,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
                 return null;
               },
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 10.0),
             const Text(
               'Task Details:',
               style: TextStyle(
@@ -171,7 +171,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
                 return null;
               },
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 10.0),
             const Text(
               'Subtask:',
               style: TextStyle(
@@ -218,7 +218,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
                 ),
               ],
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 10.0),
             const Text(
               'Subtasks List:',
               style: TextStyle(
@@ -288,7 +288,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5.0),
+                const SizedBox(height: 2.0),
                 Row(
                   children: [
                     Text(

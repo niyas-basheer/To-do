@@ -113,22 +113,30 @@ class _GraphScreenState extends State<GraphScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-     
-      appBar: AppBar(
+ Widget build(BuildContext context) {
+  double completedPercentage = 0.0;
+  double pendingPercentage = 0.0;
+
+  if (chartData[0].y + chartData[1].y > 0) {
+    completedPercentage = (chartData[0].y / (chartData[0].y + chartData[1].y)) * 100;
+    pendingPercentage = (chartData[1].y / (chartData[0].y + chartData[1].y)) * 100;
+  }
+
+  return Scaffold(
+    appBar: AppBar(
       automaticallyImplyLeading: false,
-        title: const Text(
-          "Graph",
-          style: TextStyle(
-            fontSize: 15,
-            color: blackcolor,
-            fontWeight: FontWeight.bold,
-          ),
+      title: const Text(
+        "Graph",
+        style: TextStyle(
+          fontSize: 15,
+          color: blackcolor,
+          fontWeight: FontWeight.bold,
         ),
-        centerTitle: true,
       ),
-      body: IndexedStack(
+      centerTitle: true,
+    ),
+    body: SingleChildScrollView(
+      child: IndexedStack(
         children: [
           Column(
             children: [
@@ -144,12 +152,18 @@ class _GraphScreenState extends State<GraphScreen> {
                   child: Column(
                     children: [
                       TaskPieChart(chartData: chartData),
-                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _buildLegendItem(gray, 'Completed'),
                           _buildLegendItem(secondaryColor, 'Pending'),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildPercentageLabel(completedPercentage, 'Completed'),
+                          _buildPercentageLabel(pendingPercentage, 'Pending'),
                         ],
                       ),
                     ],
@@ -172,12 +186,41 @@ class _GraphScreenState extends State<GraphScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: onTap,
-      ),
-    );
-  }
+    ),
+    bottomNavigationBar: CustomBottomNavigationBar(
+      currentIndex: currentIndex,
+      onTap: onTap,
+    ),
+  );
+}
+
+Widget _buildPercentageLabel(double percentage, String label) {
+  final roundedPercentage = percentage.round();
+
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Text(
+          '$roundedPercentage%',
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget buildContainerWithText(String text, int timeFrameIndex) {
     return Align(

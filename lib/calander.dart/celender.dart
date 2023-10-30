@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:to_do_app/widgets/calanderwidget.dart';
+import 'package:to_do_app/widgets/calander_widget.dart';
 import 'package:to_do_app/widgets/color.dart';
 import 'package:to_do_app/database/taskclass.dart';
 import 'package:to_do_app/widgets/bottamnavbar.dart';
@@ -57,24 +57,26 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Center(
-          child: Text(
-            "Schedule",
-            style: TextStyle(
-              fontSize: 15,
-              color: blackcolor,
-              fontWeight: FontWeight.bold,
+    return Expanded(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Center(
+            child: Text(
+              "Schedule",
+              style: TextStyle(
+                fontSize: 15,
+                color: blackcolor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-      ),
-      body: _buildCalendarList(),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: onTap,
+        body: _buildCalendarList(),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: onTap,
+        ),
       ),
     );
   }

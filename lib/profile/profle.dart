@@ -1,15 +1,13 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:to_do_app/widgets/bottamnavbar.dart';
 import 'package:to_do_app/widgets/color.dart';
-import 'package:to_do_app/database/signin.dart';
-import 'package:to_do_app/sign/signin.dart';
 import 'package:to_do_app/profile/appinfo.dart';
 import 'package:to_do_app/profile/privacypolicy.dart';
 import 'package:to_do_app/profile/termsancondition.dart';
-
+import 'package:package_info/package_info.dart';
 
 class ItemListOne {
   final Icon icons;
@@ -33,16 +31,7 @@ class _profileScreenState extends State<profileScreen> {
   void switched(bool value) {
     isSwitched.value = value;
   }
-   void _loadUserProfileData() async {
-    final signupBox = await Hive.openBox<UserModel>('users');
-    final signupDetails = signupBox.get('users',
-        defaultValue: UserModel(username: '', email: '', password: ''));
-
-    setState(() {
-      username = signupDetails!.username;
-      email = signupDetails.email;
-    });
-  }
+  
 
  int currentIndex = 4;
 
@@ -52,7 +41,13 @@ class _profileScreenState extends State<profileScreen> {
     });
   }
 
-  Future<void> _showSignOutConfirmationDialog() async {
+Future<String> getAppVersion() async {
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  return packageInfo.version;
+}
+
+
+  Future<void> showSignOutConfirmationDialog() async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -66,15 +61,7 @@ class _profileScreenState extends State<profileScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
-              child: const Text('Sign Out'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) => const SignIn(),
-                ));
-              },
-            ),
+           
           ],
         );
       },
@@ -84,11 +71,7 @@ class _profileScreenState extends State<profileScreen> {
   String username = ''; 
   String email = ''; 
 
-  @override
-  void initState() {
-    super.initState();
-    _loadUserProfileData(); 
-  }
+  
 
   void navigateToEditPasswordScreen() {
     Navigator.push(
@@ -103,7 +86,7 @@ class _profileScreenState extends State<profileScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const Privecy(),
+        builder: (context) =>  const PrivacyPolicyScreen(),
       ),
     );
   }
@@ -112,7 +95,7 @@ class _profileScreenState extends State<profileScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const TermsAndConditionsScreen(),
+        builder: (context) => const TermsConditionsScreen(),
       ),
     );
   }
@@ -120,16 +103,6 @@ class _profileScreenState extends State<profileScreen> {
   @override
   Widget build(BuildContext context) {
     List<ItemListOne> itemList = [
-      ItemListOne(
-        icons: const Icon(Icons.person_add_alt_1_rounded),
-        items: username,
-        
-      ),
-      ItemListOne(
-        icons: const Icon(Icons.mail_lock),
-        items: email,
-        
-      ),
       ItemListOne(
         icons: const Icon(Icons.info),
         items: 'App info',
@@ -152,7 +125,7 @@ class _profileScreenState extends State<profileScreen> {
          automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text(
-          'profile',
+          'Profile',
          style: TextStyle(
             fontSize: 15,
             color: blackcolor,
@@ -163,82 +136,48 @@ class _profileScreenState extends State<profileScreen> {
       body: IndexedStack(
         index: selectedIndex,
         children: [
-          Container(
-            
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-               
-                const SizedBox(
-                  height: 100,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: itemList.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          if (index == 0) {
-                           
-                          } else if (index == 1) {
-                           
-                          } else if (index == 2) {
-                            navigateToEditPasswordScreen();
-                          } else if (index == 3) {
-                            navigateToPrivacyPolicyScreen();
-                          } else if (index == 4) {
-                            navigateToTermsAndConditionsScreen();
-                          }
-                        },
-                        child: Container(
-                          height: 50,
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 10),
-                          padding: const EdgeInsets.all(.0),
-                          decoration: BoxDecoration(
-                            color: notselectedcolr,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: ListTile(
-                            leading: itemList[index].icons,
-                            title: Text(itemList[index].items),
-                            trailing: itemList[index].right,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 50, left: 10, right: 10),
-                  child: SizedBox(
-                    width: 0.9 * MediaQuery.of(context).size.width,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _showSignOutConfirmationDialog();
+          Column(
+            children: [
+              const SizedBox(
+                height: 100,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: itemList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        if (index == 0) {
+                          navigateToEditPasswordScreen();
+                        } else if (index == 1) {
+                         navigateToPrivacyPolicyScreen();
+                        } else if (index == 2) {
+                          navigateToTermsAndConditionsScreen();
+                        } 
                       },
-                      style: ElevatedButton.styleFrom(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      child: Container(
+                        height: 50,
+                        width: 0.9 * MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 10),
+                        padding: const EdgeInsets.all(.0),
+                        decoration: BoxDecoration(
+                          color: notselectedcolr,
+                          borderRadius: BorderRadius.circular(10.0),
+                          
                         ),
-                        backgroundColor:
-                            secondaryColor,
-                        alignment: Alignment.center,
-                      ),
-                      child: const Text(
-                        "Sign Out",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: blackcolor,
+                        child: ListTile(
+                          leading: itemList[index].icons,
+                          title: Text(itemList[index].items),
+                          trailing: itemList[index].right,
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+
+            ],
           ),
         ],
       ),
@@ -248,6 +187,27 @@ class _profileScreenState extends State<profileScreen> {
           setState(() {
             currentIndex = index;
           });
+        },
+      ),
+        bottomSheet: FutureBuilder<String>(
+        future: getAppVersion(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(), // You can use a loading indicator while fetching the version.
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return Container(
+              padding: const EdgeInsets.all(16.0),
+              color: Colors.grey[200],
+              child: Text(
+                'App Version: ${snapshot.data}',
+                style: const TextStyle(fontSize: 14, color: Colors.black),
+              ),
+            );
+          }
         },
       ),
     );
