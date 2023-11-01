@@ -57,26 +57,24 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Center(
-            child: Text(
-              "Schedule",
-              style: TextStyle(
-                fontSize: 15,
-                color: blackcolor,
-                fontWeight: FontWeight.bold,
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Center(
+          child: Text(
+            "Schedule",
+            style: TextStyle(
+              fontSize: 15,
+              color: blackcolor,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        body: _buildCalendarList(),
-        bottomNavigationBar: CustomBottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: onTap,
-        ),
+      ),
+      body: _buildCalendarList(),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: onTap,
       ),
     );
   }
