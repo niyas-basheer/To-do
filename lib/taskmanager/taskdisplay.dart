@@ -53,7 +53,11 @@ Future<void> loadTask() async {
 void toggleSubtaskCompletion(int index) {
   setState(() {
     completedSubtasks[index] = !completedSubtasks[index];
+
+    // Update the task's subtask completion status
     task!.subtasks[index].isCompleted = completedSubtasks[index];
+
+    // Update the task in the Hive database
     updateTask(task!);
 
    
@@ -148,7 +152,7 @@ void toggleSubtaskCompletion(int index) {
           children: [
             const SizedBox(height: 10),
             Container(
-              width: 1.0 * MediaQuery.of(context).size.width,
+              width: 400,
               decoration: const BoxDecoration(color: Color.fromARGB(255, 185, 188, 199) ),
               child: Text(
                 task?.heading ?? 'No task found',
@@ -282,6 +286,3 @@ void toggleSubtaskCompletion(int index) {
     );
   }
 }
-
-
-

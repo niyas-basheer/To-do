@@ -175,5 +175,4 @@ static Widget buildVerticalListView(List<Task> tasks, DateTime selectedDate, Bui
 }
 
 
-
 }

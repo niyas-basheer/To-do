@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: depend_on_referenced_packages, use_key_in_widget_constructors, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
@@ -13,10 +11,7 @@ import 'package:to_do_app/home/pending.dart';
 import 'package:to_do_app/taskmanager/taskdisplay.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 
-
-
 class HomePageContent extends StatefulWidget {
- 
   const HomePageContent({Key? key});
 
   @override
@@ -29,14 +24,11 @@ class _HomePageContentState extends State<HomePageContent> {
   List<Task> tasks = [];
   DatabaseManager databaseManager = DatabaseManager();
 
-
   @override
   void initState() {
     super.initState();
     loadTasks();
-   
   }
- 
 
   Future<void> loadTasks() async {
     databaseManager.loadTasks(tasks, selectedtask);
@@ -51,7 +43,6 @@ class _HomePageContentState extends State<HomePageContent> {
     );
   }
 
- 
   Widget _buildTaskList(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -62,7 +53,7 @@ class _HomePageContentState extends State<HomePageContent> {
           _buildPendingTasks(context, "Completed Tasks", const ComplitedTask()),
           _buildHorizontalListView(),
           _buildPendingTasks(context, "Pending Tasks", const PendingTask()),
-           VerticalListViewWidget(),
+          VerticalListViewWidget(),
         ],
       ),
     );
@@ -93,11 +84,13 @@ class _HomePageContentState extends State<HomePageContent> {
             return a.compareTo(b);
           },
           itemSubmitted: (item) {
-            final selectedTask = tasks.firstWhere((task) => task.heading == item);
+            final selectedTask =
+                tasks.firstWhere((task) => task.heading == item);
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaskDetailPage(taskId: tasks.indexOf(selectedTask)),
+                builder: (context) =>
+                    TaskDetailPage(taskId: tasks.indexOf(selectedTask)),
               ),
             );
           },
@@ -112,65 +105,81 @@ class _HomePageContentState extends State<HomePageContent> {
     );
   }
 
-Widget _buildHorizontalListView() {
-  return ValueListenableBuilder(
-    valueListenable: Hive.box<Task>('tasks').listenable(),
-    builder: (context, Box<Task> box, child) {
-      final completedTasks = box.values.where((task) {
-        return task.subtasks.every((subtask) => subtask.isCompleted);
-      }).toList();
+  Widget _buildHorizontalListView() {
+    return ValueListenableBuilder(
+      valueListenable: Hive.box<Task>('tasks').listenable(),
+      builder: (context, Box<Task> box, child) {
+        final completedTasks = box.values.where((task) {
+          return task.subtasks.every((subtask) => subtask.isCompleted);
+        }).toList();
 
-      if (completedTasks.isEmpty) {
-        return const Center(
-          child: Text('No items found'),
-        );
-      }
+        if (completedTasks.isEmpty) {
+          return const Center(
+            child: Text('No items found'),
+          );
+        }
 
-      return SizedBox(
-        height: 200,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: completedTasks.length,
-          itemBuilder: (context, index) {
-            final task = completedTasks[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        TaskDetailPage(taskId: tasks.indexOf(task)),
-                  ),
-                );
-              },
-              child: Card(
-                elevation: 4,
-                color: notselectedcolr,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  width: 160,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    task.heading,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: blackcolor,
-                      fontFamily: 'DelaGothicOne',
+        return SizedBox(
+          height: 150,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: completedTasks.length,
+            itemBuilder: (context, index) {
+              final task = completedTasks[index];
+              final String startingDate = task.startDate != null
+                  ? DateFormat('dd-MM-yyyy')
+                      .format(DateTime.parse(task.startDate!))
+                  : "Not specified";
+
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          TaskDetailPage(taskId: tasks.indexOf(task)),
+                    ),
+                  );
+                },
+                child: Card(
+                  elevation: 4,
+                  color: notselectedcolr,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    width: 130,
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          task.heading,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: blackcolor,
+                            fontFamily: 'DelaGothicOne',
+                          ),
+                        ),
+                        const Expanded(child: SizedBox(height: 1)),
+                        Text(
+                          'Started Date: $startingDate',
+                          style: const TextStyle(
+                              fontSize: 10,
+                              color: blackcolor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-        ),
-      );
-    },
-  );
-}
-
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 
   Widget _buildPendingTasks(BuildContext context, String title, Widget route) {
     return Row(
@@ -180,10 +189,7 @@ Widget _buildHorizontalListView() {
           child: Text(
             title,
             style: const TextStyle(
-              fontSize: 20,
-              color: blackcolor,
-              fontWeight: FontWeight.bold
-            ),
+                fontSize: 20, color: blackcolor, fontWeight: FontWeight.bold),
           ),
         ),
         const Spacer(),
@@ -205,19 +211,15 @@ Widget _buildHorizontalListView() {
           ),
           child: const Text(
             "See all",
-            style: TextStyle(color: secondaryColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 15
-            ),
+            style: TextStyle(
+                color: secondaryColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 15),
           ),
         ),
       ],
     );
   }
-
-
-
-
 }
 
 class VerticalListViewWidget extends StatelessWidget {
@@ -248,8 +250,9 @@ class VerticalListViewWidget extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final task = incompleteTasks[index];
-                final int pendingTaskCount =
-                    task.subtasks.where((subtask) => !subtask.isCompleted).length;
+                final int pendingTaskCount = task.subtasks
+                    .where((subtask) => !subtask.isCompleted)
+                    .length;
                 final String startingDate = task.startDate != null
                     ? DateFormat('dd-MM-yyyy')
                         .format(DateTime.parse(task.startDate!))
@@ -260,8 +263,8 @@ class VerticalListViewWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            TaskDetailPage(taskId: box.values.toList().indexOf(task)),
+                        builder: (context) => TaskDetailPage(
+                            taskId: box.values.toList().indexOf(task)),
                       ),
                     );
                   },
@@ -333,8 +336,6 @@ class VerticalListViewWidget extends StatelessWidget {
   }
 }
 
-
-
 class TaskSearchBar extends StatelessWidget {
   final Box<Task> taskBox;
 
@@ -366,11 +367,13 @@ class TaskSearchBar extends StatelessWidget {
             return a.compareTo(b);
           },
           itemSubmitted: (item) {
-            final selectedTask = taskBox.values.firstWhere((task) => task.heading == item);
+            final selectedTask =
+                taskBox.values.firstWhere((task) => task.heading == item);
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaskDetailPage(taskId: taskBox.values.toList().indexOf(selectedTask)),
+                builder: (context) => TaskDetailPage(
+                    taskId: taskBox.values.toList().indexOf(selectedTask)),
               ),
             );
           },
@@ -399,86 +402,82 @@ class VerticalListViewcompleted extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
- return ValueListenableBuilder(
-    valueListenable: Hive.box<Task>('tasks').listenable(), 
-    builder: (context, Box<Task> box, child) {
-      final completedTasks = box.values.where((task) {
-        return task.subtasks.every((subtask) => subtask.isCompleted);
-      }).toList();
+    return ValueListenableBuilder(
+      valueListenable: Hive.box<Task>('tasks').listenable(),
+      builder: (context, Box<Task> box, child) {
+        final completedTasks = box.values.where((task) {
+          return task.subtasks.every((subtask) => subtask.isCompleted);
+        }).toList();
 
-if (completedTasks.isEmpty) {
-          return const Center(
-            child: Text('No items found'),
-          );
-        }
-
-
-      return Expanded(
-        child: SizedBox(
-          height: 300,
-          child: ListView.separated(
-            itemCount: completedTasks.length,
-            separatorBuilder: (context, index) => const Divider(
-              color: white,
-              thickness: 10,
-            ),
-            itemBuilder: (context, index) {
-              final task = completedTasks[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TaskDetailPage(taskId: box.values.toList().indexOf(task)),
+        return Expanded(
+          child: SizedBox(
+            height: 300,
+            child: ListView.separated(
+              itemCount: completedTasks.length,
+              separatorBuilder: (context, index) => const Divider(
+                color: white,
+                thickness: 10,
+              ),
+              itemBuilder: (context, index) {
+                final task = completedTasks[index];
+                final String startingDate = task.startDate != null
+                    ? DateFormat('dd-MM-yyyy')
+                        .format(DateTime.parse(task.startDate!))
+                    : "Not specified";
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TaskDetailPage(
+                            taskId: box.values.toList().indexOf(task)),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: 60,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: notselectedcolr,
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  );
-                },
-                child: Container(
-                  width: 60,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: notselectedcolr,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          task.heading,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: blackcolor,
-                            fontFamily: 'DelaGothicOne',
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            task.heading,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: blackcolor,
+                              fontFamily: 'DelaGothicOne',
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          task.details,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: blackcolor,
+                        const SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Starting Date: $startingDate',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: blackcolor,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-      );
-    },
-  );
-}
-
+        );
+      },
+    );
   }
+}
 
 class CompletedTaskSearchBar extends StatelessWidget {
   final Box<Task> taskBox;
@@ -511,11 +510,13 @@ class CompletedTaskSearchBar extends StatelessWidget {
             return a.compareTo(b);
           },
           itemSubmitted: (item) {
-            final selectedTask = taskBox.values.firstWhere((task) => task.heading == item);
+            final selectedTask =
+                taskBox.values.firstWhere((task) => task.heading == item);
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaskDetailPage(taskId: taskBox.values.toList().indexOf(selectedTask)),
+                builder: (context) => TaskDetailPage(
+                    taskId: taskBox.values.toList().indexOf(selectedTask)),
               ),
             );
           },

@@ -50,7 +50,7 @@ class _GraphScreenState extends State<GraphScreen> {
     final DateTime now = DateTime.now();
 
     if (graph == 0) {
-     
+      // "Today" is selected
       final DateTime today = DateTime(now.year, now.month, now.day);
       for (final task in tasks) {
         if (task.startDate != null && task.endDate != null) {
@@ -68,7 +68,7 @@ class _GraphScreenState extends State<GraphScreen> {
         }
       }
     } else if (graph == 1) {
-      
+      // "This Week" is selected
       final DateTime startOfWeek =
           now.subtract(Duration(days: now.weekday - 1));
       for (final task in tasks) {
@@ -87,7 +87,7 @@ class _GraphScreenState extends State<GraphScreen> {
         }
       }
     } else if (graph == 2) {
-      
+      // "This Month" is selected
       final DateTime startOfMonth = DateTime(now.year, now.month, 1);
       for (final task in tasks) {
         if (task.startDate != null && task.endDate != null) {
@@ -113,30 +113,22 @@ class _GraphScreenState extends State<GraphScreen> {
   }
 
   @override
- Widget build(BuildContext context) {
-  double completedPercentage = 0.0;
-  double pendingPercentage = 0.0;
-
-  if (chartData[0].y + chartData[1].y > 0) {
-    completedPercentage = (chartData[0].y / (chartData[0].y + chartData[1].y)) * 100;
-    pendingPercentage = (chartData[1].y / (chartData[0].y + chartData[1].y)) * 100;
-  }
-
-  return Scaffold(
-    appBar: AppBar(
+  Widget build(BuildContext context) {
+    return Scaffold(
+     
+      appBar: AppBar(
       automaticallyImplyLeading: false,
-      title: const Text(
-        "Graph",
-        style: TextStyle(
-          fontSize: 15,
-          color: blackcolor,
-          fontWeight: FontWeight.bold,
+        title: const Text(
+          "Graph",
+          style: TextStyle(
+            fontSize: 15,
+            color: blackcolor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        centerTitle: true,
       ),
-      centerTitle: true,
-    ),
-    body: SingleChildScrollView(
-      child: IndexedStack(
+      body: IndexedStack(
         children: [
           Column(
             children: [
@@ -152,18 +144,12 @@ class _GraphScreenState extends State<GraphScreen> {
                   child: Column(
                     children: [
                       TaskPieChart(chartData: chartData),
+                      // Legend for the chart
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _buildLegendItem(gray, 'Completed'),
                           _buildLegendItem(secondaryColor, 'Pending'),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildPercentageLabel(completedPercentage, 'Completed'),
-                          _buildPercentageLabel(pendingPercentage, 'Pending'),
                         ],
                       ),
                     ],
@@ -186,41 +172,12 @@ class _GraphScreenState extends State<GraphScreen> {
           ),
         ],
       ),
-    ),
-    bottomNavigationBar: CustomBottomNavigationBar(
-      currentIndex: currentIndex,
-      onTap: onTap,
-    ),
-  );
-}
-
-Widget _buildPercentageLabel(double percentage, String label) {
-  final roundedPercentage = percentage.round();
-
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Row(
-      children: [
-        Text(
-          '$roundedPercentage%',
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: onTap,
+      ),
+    );
+  }
 
   Widget buildContainerWithText(String text, int timeFrameIndex) {
     return Align(

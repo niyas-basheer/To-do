@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:to_do_app/calander.dart/celender.dart';
-import 'package:to_do_app/widgets/graph_widget.dart';
+import 'package:to_do_app/database/signin.dart';
+import 'package:to_do_app/graph/graphscreen.dart';
 import 'package:to_do_app/home/home.dart';
 import 'package:to_do_app/profile/profle.dart';
 import 'package:to_do_app/splash/secondspalsh.dart';
@@ -10,12 +11,13 @@ import 'splash/spalshscreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   Hive.registerAdapter(TaskAdapter());
-
+  Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(SubtaskAdapter());
   await Hive.initFlutter();
    await Hive.openBox<Task>('tasks');
-
+    await Hive.openBox<UserModel>('users'); 
 
   runApp(const MyApp());
 }

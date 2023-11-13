@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class TermsConditionsScreen extends StatefulWidget {
-  const TermsConditionsScreen({super.key});
+class  TermsConditionsScreen extends StatefulWidget {
+  const  TermsConditionsScreen({super.key});
 
   @override
   _TermsConditionsScreenState createState() => _TermsConditionsScreenState();
 }
 
-class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
+class _TermsConditionsScreenState extends State< TermsConditionsScreen> {
   late WebViewController _controller;
 
   @override
@@ -39,8 +39,7 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('TermsConditions'),
-      centerTitle: true,),
+      appBar: AppBar(title: const Text('Terms & condition'),centerTitle: true,),
       body: WebViewWidget(controller: _controller),
     );
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:to_do_app/widgets/color.dart';
 import 'package:to_do_app/database/taskclass.dart';
-import 'package:to_do_app/widgets/home_widget.dart';
+import 'package:to_do_app/widgets/widgetshome.dart';
 
 
 class PendingTask extends StatefulWidget {

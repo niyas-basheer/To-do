@@ -21,28 +21,7 @@ class DatabaseManager {
     selectedTask.addAll(tasks.map((task) => task.heading).toList());
   }
 
-  
-}
-
-class DatabaseService {
-  Future<void> addOrUpdateTask(Task task) async {
-    final taskBox = await Hive.openBox<Task>('tasks');
-
-    if (task.key != null) {
-      taskBox.put(task.key, task);
-    } else {
-      taskBox.add(task);
-    }
-  }
-
-  static Future<Box<Task>> openTaskBox() async {
-    return await Hive.openBox<Task>('tasks');
-  }
-
-  static Future<void> updateTask(Task task, int index) async {
-    final taskBox = await openTaskBox();
-    await taskBox.putAt(index, task);
-  }
+  // Add other database-related functions here
 }
 
 

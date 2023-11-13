@@ -44,19 +44,19 @@ class DateUtils {
     'December'
   ];
 
-  
+  /// The list of days in a given month
   static List<DateTime> daysInMonth(DateTime month) {
     var first = firstDayOfMonth(month);
     var last = DateUtils.lastDayOfMonth(month);
 
     var daysAfter = 7 - last.weekday;
 
-    
+    // If the last day is sunday (7) the entire week must be rendered
     if (daysAfter == 0) {
       daysAfter = 7;
     }
 
-   
+    // var lastToDisplay = last.add(Duration(days: daysAfter));
     return daysRange(first, last).toList();
   }
 
@@ -79,24 +79,28 @@ class DateUtils {
   }
 
   static DateTime firstDayOfWeek(DateTime day) {
-    
+    /// Handle Daylight Savings by setting hour to 12:00 Noon
+    /// rather than the default of Midnight
     day = DateTime.utc(day.year, day.month, day.day, 12);
 
-   
+    /// Weekday is on a 1-7 scale Monday - Sunday,
+    /// This Calendar works from Sunday - Monday
     var decreaseNum = day.weekday % 7;
     return day.subtract(Duration(days: decreaseNum));
   }
 
   static DateTime lastDayOfWeek(DateTime day) {
-   
+    /// Handle Daylight Savings by setting hour to 12:00 Noon
+    /// rather than the default of Midnight
     day = DateTime.utc(day.year, day.month, day.day, 12);
 
-    
+    /// Weekday is on a 1-7 scale Monday - Sunday,
+    /// This Calendar's Week starts on Sunday
     var increaseNum = day.weekday % 7;
     return day.add(Duration(days: 7 - increaseNum));
   }
 
-  
+  /// The last day of a given month
   static DateTime lastDayOfMonth(DateTime month) {
     var beginningNextMonth = (month.month < 12)
         ? DateTime(month.year, month.month + 1, 1)
@@ -122,13 +126,14 @@ class DateUtils {
     }
   }
 
-  
+  /// Whether or not two times are on the same day.
   static bool isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   static bool isSameWeek(DateTime a, DateTime b) {
-   
+    /// Handle Daylight Savings by setting hour to 12:00 Noon
+    /// rather than the default of Midnight
     a = DateTime.utc(a.year, a.month, a.day);
     b = DateTime.utc(b.year, b.month, b.day);
 

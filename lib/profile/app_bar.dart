@@ -13,9 +13,12 @@ class Customapp extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       
-      title: Text(
-        title,
-        style: const TextStyle(fontSize: 16, color: gray),
+      title: Padding(
+        padding: const EdgeInsets.only(left: 70),
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 16, color: gray),
+        ),
       ),
       leading: BackButton(
         color: blackcolor,
@@ -23,7 +26,6 @@ class Customapp extends StatelessWidget implements PreferredSizeWidget {
           Navigator.of(context).pop();
         },
       ),
-      centerTitle: true,
     );
   }
 }

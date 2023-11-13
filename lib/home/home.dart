@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/widgets/color.dart';
 import '../widgets/bottamnavbar.dart';
-import 'package:to_do_app/widgets/home_widget.dart';
+import 'package:to_do_app/widgets/widgetshome.dart';
 
 
 
@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -41,6 +42,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+
 
   Widget _buildTaskList(BuildContext context) {
     return const HomePageContent(); 

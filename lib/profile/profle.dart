@@ -95,7 +95,7 @@ Future<String> getAppVersion() async {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const TermsConditionsScreen(),
+        builder: (context) =>  const TermsConditionsScreen(),
       ),
     );
   }
@@ -109,12 +109,12 @@ Future<String> getAppVersion() async {
         right: const Icon(Icons.chevron_right),
       ),
       ItemListOne(
-        icons: const Icon(Icons.privacy_tip),
+        icons: const Icon(Icons.lock),
         items: 'Privacy Policy',
         right: const Icon(Icons.chevron_right),
       ),
       ItemListOne(
-        icons: const Icon(Icons.settings_applications),
+        icons: const Icon(Icons.description),
         items: 'Terms & condition',
         right: const Icon(Icons.chevron_right),
       ),
@@ -194,14 +194,14 @@ Future<String> getAppVersion() async {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(), // You can use a loading indicator while fetching the version.
+              child: CircularProgressIndicator(), 
             );
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
             return Container(
               padding: const EdgeInsets.all(16.0),
-              color: Colors.grey[200],
+              color: white,
               child: Text(
                 'App Version: ${snapshot.data}',
                 style: const TextStyle(fontSize: 14, color: Colors.black),

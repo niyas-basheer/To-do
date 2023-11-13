@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:to_do_app/widgets/calander_widget.dart';
+import 'package:to_do_app/widgets/calanderwidget.dart';
 import 'package:to_do_app/widgets/color.dart';
 import 'package:to_do_app/database/taskclass.dart';
 import 'package:to_do_app/widgets/bottamnavbar.dart';
@@ -36,7 +36,7 @@ class _CalendarState extends State<Calendar> {
   void initState() {
     super.initState();
     loadTasks();
-     selectedDate = DateTime.now(); 
+     selectedDate = DateTime.now(); // Initialize selectedDate with the present date.
     selectedMonth = DateFormat('MMMM').format(selectedDate);
   }
 
@@ -137,7 +137,7 @@ class _CalendarState extends State<Calendar> {
         setState(() {
           selectedMonth = value;
 
-         
+          // Calculate the corresponding month in the selected year.
           final selectedMonthIndex = months.indexOf(selectedMonth) + 1;
           selectedDate = DateTime(DateTime.now().year, selectedMonthIndex);
         });
